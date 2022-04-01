@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi.params import Query
+from fastapi_cache.decorator import cache
 
 from app.schemas.math import FloatResult, IntResult
 from app.core import operations
@@ -7,6 +8,7 @@ from app.core import operations
 router = APIRouter()
 
 
+@cache
 @router.get("/pow", response_model=FloatResult)
 def power(base: float = Query(..., description="The base."),
           exp: float = Query(..., description="The exponent")):
@@ -16,6 +18,7 @@ def power(base: float = Query(..., description="The base."),
     )
 
 
+@cache
 @router.get("/fibonacci", response_model=IntResult)
 def n_th_fibonacci(n: int = Query(..., ge=1)):
     """N-th Fibonacci number."""
@@ -24,6 +27,7 @@ def n_th_fibonacci(n: int = Query(..., ge=1)):
     )
 
 
+@cache
 @router.get("/factorial", response_model=IntResult)
 def factorial(n: int = Query(..., ge=1)):
     """n! Factorial"""

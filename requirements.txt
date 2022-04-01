@@ -3,3 +3,4 @@ uvicorn[standard]
 fastapi-cache
 sqlalchemy
 pydantic
+fastapi-cache2[memcache]
