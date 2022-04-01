@@ -33,4 +33,17 @@ python -m uvicorn app.main:app --reload
 
 ## Deploy with docker
 
-TDB
+1. Copy .env.sample and rename it .env. Here you will place all configuration variables.
+   ```shell
+    cp .env.sample .env
+    ```
+   
+2. Run docker compose
+   ```shell
+   docker-compose up -d
+   ```
+   
+3. [Optional] Rebuild image
+    ```shell
+   docker-compose up -d --build
+    ```
