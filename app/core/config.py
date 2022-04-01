@@ -1,7 +1,12 @@
 import secrets
-from typing import Any, Dict, List, Optional, Union
 
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
+from pydantic import BaseSettings
+
+default_user = {
+    "email": "test@test.com",
+    "password": "test",
+    "name": "Test"
+}
 
 
 class Settings(BaseSettings):
@@ -13,6 +18,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Math Microservice"
 
     DATABASE_URL: str = "sqlite:///./math.db"
+
+    DEBUG: bool = False
 
     class Config:
         case_sensitive = True

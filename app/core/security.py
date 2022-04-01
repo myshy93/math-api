@@ -4,38 +4,21 @@ from typing import Optional
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from starlette import status
 
 from app.core.config import settings
+from app.db.connection import get_db
 from app.db.operations import get_user_by_email
 from app.schemas.users import TokenData
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 ALGORITHM = "HS256"
 
 
-def get_hashed_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def authenticate_user(db: Session, email: str, password: str):
-    db_user = get_user_by_email(db, email)
-    if not db_user:
-        return False
-    if not verify_password(password, db.password):
-        return False
-    return True
-
-
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    """Generate new JWT token."""
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -46,7 +29,11 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    """Extract current user based on token received in WWW-Authentication header.
+    This function is intended to be used as dependency for endpoints that need
+    to be protected.
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

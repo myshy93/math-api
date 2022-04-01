@@ -18,12 +18,15 @@ pip install -r requirements.txt
 
 ## Configurable environment settings
 
-| Variable name                | Description        | Default           |
-|------------------------------|--------------------|-------------------|
-| API_V1_STR                   | API V1 prefix      | /api/v1           |
-| SECRET_KEY                   | Secret key for JWT | Randon generated  |
-| ACCESS_TOKEN_EXPIRE_MINUTES  | JWT Expire minutes | 11520 (8 days)    |
-| PROJECT_NAME                 | Project name       | Math Microservice |
+| Variable name               | Description        | Default           |
+|-----------------------------|--------------------|-------------------|
+| API_V1_STR                  | API V1 prefix      | /api/v1           |
+| SECRET_KEY                  | Secret key for JWT | Randon generated  |
+| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Expire minutes | 11520 (8 days)    |
+| PROJECT_NAME                | Project name       | Math Microservice |
+| DEBUG                       | Enable debugging   | False             |
+
+NOTE: When DEBUG is True logging verbosity will increase and default users will be created.
 
 ## Run the server
 
@@ -37,13 +40,22 @@ python -m uvicorn app.main:app --reload
    ```shell
     cp .env.sample .env
     ```
-   
+
 2. Run docker compose
    ```shell
    docker-compose up -d
    ```
-   
+
 3. [Optional] Rebuild image
     ```shell
    docker-compose up -d --build
     ```
+
+## How to use
+
+### Default user/password
+
+```shell
+email: test@test.com
+password: test
+```

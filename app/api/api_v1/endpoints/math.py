@@ -1,9 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.params import Query
 from fastapi_cache.decorator import cache
 
+from app.core.security import get_current_user
 from app.schemas.math import FloatResult, IntResult
 from app.core import operations
+from app.schemas.users import UserSchema
 
 router = APIRouter()
 
@@ -29,7 +31,8 @@ async def n_th_fibonacci(n: int = Query(..., ge=1)):
 
 @cache
 @router.get("/factorial", response_model=IntResult)
-async def factorial(n: int = Query(..., ge=1)):
+async def factorial(n: int = Query(..., ge=1),
+                    c_user: UserSchema = Depends(get_current_user)):
     """n! Factorial"""
     return IntResult(
         result=operations.factorial(n)

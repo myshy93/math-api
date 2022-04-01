@@ -8,6 +8,9 @@ class UserSchema(BaseModel):
     email: str
     name: str
 
+    class Config:
+        orm_mode = True
+
 
 class UserCreateSchema(UserSchema):
     """User model for user creation."""
@@ -22,4 +25,4 @@ class TokenData(BaseModel):
 class Token(BaseModel):
     """New token request response."""
     access_token: str
-    token_type: str
+    token_type: str = "bearer"

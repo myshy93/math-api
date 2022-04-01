@@ -1,8 +1,10 @@
+from typing import Union
+
 from sqlalchemy.orm import Session
 
-from app.core.security import get_hashed_password
+from app.core.utils import get_hashed_password, verify_password
 from app.models.user import UserModel
-from app.schemas.users import UserCreateSchema
+from app.schemas.users import UserCreateSchema, UserSchema
 
 
 # + User operations
@@ -25,5 +27,14 @@ def get_user(db: Session, user_id: int):
 
 def get_user_by_email(db: Session, email: str):
     return db.query(UserModel).filter(UserModel.email == email).first()
+
+
+def authenticate_user(db: Session, email: str, password: str) -> Union[None, UserSchema]:
+    db_user = get_user_by_email(db, email)
+    if not db_user:
+        return None
+    if not verify_password(password, db_user.password):
+        return None
+    return UserSchema(email=db_user.email, name=db_user.name)
 
 # - User operations
