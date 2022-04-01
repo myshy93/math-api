@@ -12,6 +12,8 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str = "Math Microservice"
 
+    DATABASE_URL: str = "sqlite:///./math.db"
+
     class Config:
         case_sensitive = True
 
