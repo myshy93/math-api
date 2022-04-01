@@ -4,3 +4,5 @@ fastapi-cache
 sqlalchemy
 pydantic
 fastapi-cache2[memcache]
+passlib
+python-jose[cryptography]
