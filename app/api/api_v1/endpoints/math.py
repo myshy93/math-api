@@ -17,7 +17,7 @@ def power(base: float = Query(..., description="The base."),
 
 
 @router.get("/fibonacci", response_model=IntResult)
-def n_th_fibonacci(n: int):
+def n_th_fibonacci(n: int = Query(..., ge=1)):
     """N-th Fibonacci number."""
     return IntResult(
         result=operations.n_th_fibonacci(n)
@@ -25,7 +25,7 @@ def n_th_fibonacci(n: int):
 
 
 @router.get("/factorial", response_model=IntResult)
-def factorial(n: int):
+def factorial(n: int = Query(..., ge=1)):
     """n! Factorial"""
     return IntResult(
         result=operations.factorial(n)

@@ -3,10 +3,19 @@ def power(a, b):
 
 
 def n_th_fibonacci(n):
-    # not implemented
-    return 0
+    a, b = 0, 1
+    c = 1
+
+    while c < n:
+        a, b = b, a + b
+        c += 1
+
+    return a
 
 
 def factorial(n):
-    # not implemented
-    return 0
+    p = 1
+    for i in range(1, n+1):
+        p *= i
+
+    return p
