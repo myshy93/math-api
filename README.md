@@ -27,6 +27,7 @@ pip install -r requirements.txt
 | DEBUG                       | Enable debugging   | False                        |
 | DATABASE_URL                | Database URL       | sqlite:///./db-files/math.db |
 | SERVER_URL                  | Trusted hostname   | localhost                    |
+| SENTRY_DSN                  | Sentry DSN         | None                         |
 
 NOTE: When DEBUG is True logging verbosity will increase and default users will be created.
 

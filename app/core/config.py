@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./db-files/math.db"
     DEBUG: bool = False
     SERVER_URL: str = 'localhost'
+    SENTRY_DSN: str = None
 
     class Config:
         case_sensitive = True

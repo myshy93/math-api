@@ -1,11 +1,13 @@
 import logging
 from datetime import timedelta
 
+import sentry_sdk
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sqlalchemy.orm import Session
 from starlette import status
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -24,6 +26,13 @@ from app.schemas.users import Token
 # Logger
 init_logger()
 logger = logging.getLogger(config.LOGGER_NAME)
+
+# Init sentry
+sentry_sdk.init(
+    dsn=settings.SENTRY_DSN,
+    # To set a uniform sample rate
+    traces_sample_rate=1,
+)
 
 # The app
 app = FastAPI(
@@ -91,4 +100,8 @@ async def get_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
     )
     logger.debug(f"New token emitted to {user.email}")
     return Token(access_token=access_token)
+
+
 # -----------
+
+app = SentryAsgiMiddleware(app)
