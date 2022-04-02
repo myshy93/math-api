@@ -14,7 +14,9 @@ logger = logging.getLogger(config.LOGGER_NAME)
 
 
 def init_db() -> None:
+    logger.debug(f"Initializing database at {settings.DATABASE_URL}")
     Base.metadata.create_all(bind=engine)
+    logger.info("Database tables initialized.")
 
     if settings.DEBUG:
         db = SessionLocal()
@@ -25,6 +27,7 @@ def init_db() -> None:
         )
         try:
             create_user(db, user)
+            logger.debug("Test user added.")
         except IntegrityError:
             logger.warning("Test user already in database.")
         db.close()

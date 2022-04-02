@@ -79,6 +79,7 @@ async def get_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
                            db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
+        logger.debug(f"Auth failed for {user.email}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -88,5 +89,6 @@ async def get_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
+    logger.debug(f"New token emitted to {user.email}")
     return Token(access_token=access_token)
 # -----------

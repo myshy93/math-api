@@ -1,13 +1,18 @@
+import logging
 import time
 from typing import Union
 
 from sqlalchemy.orm import Session
 from starlette.requests import Request
 
+from app.core import config
 from app.core.utils import get_hashed_password, verify_password
 from app.models.request import RequestModel
 from app.models.user import UserModel
 from app.schemas.users import UserCreateSchema, UserSchema
+
+# Logger
+logger = logging.getLogger(config.LOGGER_NAME)
 
 
 # + User operations
@@ -17,6 +22,7 @@ def create_user(db: Session, user: UserCreateSchema):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    logger.info("New user created.")
     return db_user
 
 
@@ -51,7 +57,7 @@ def add_request_record(db: Session, request: Request):
         endpoint=str(request.url),
         ts=time.time(),
         ip=request.client.host,
-        # here i should grab the user but will require some refactoring.
+        # here I should grab the user but will require some refactoring.
         # also, will introduce overhead to db.
     )
     db.add(db_req_record)
