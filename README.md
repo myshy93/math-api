@@ -18,13 +18,14 @@ pip install -r requirements.txt
 
 ## Configurable environment settings
 
-| Variable name               | Description        | Default           |
-|-----------------------------|--------------------|-------------------|
-| API_V1_STR                  | API V1 prefix      | /api/v1           |
-| SECRET_KEY                  | Secret key for JWT | Randon generated  |
-| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Expire minutes | 11520 (8 days)    |
-| PROJECT_NAME                | Project name       | Math Microservice |
-| DEBUG                       | Enable debugging   | False             |
+| Variable name               | Description        | Default             |
+|-----------------------------|--------------------|---------------------|
+| API_V1_STR                  | API V1 prefix      | /api/v1             |
+| SECRET_KEY                  | Secret key for JWT | Randon generated    |
+| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Expire minutes | 11520 (8 days)      |
+| PROJECT_NAME                | Project name       | Math Microservice   |
+| DEBUG                       | Enable debugging   | False               |
+| DATABASE_URL                | Database URL       | sqlite:///./math.db |
 
 NOTE: When DEBUG is True logging verbosity will increase and default users will be created.
 
