@@ -11,3 +11,8 @@ services:
       - "8000-8100:8000"
     env_file:
       - .env
+    volumes:
+      - db-data:/var/api/db-files
+#     somehow here a dynamic mapping is needed due to the fact that sqlite file location can be configured via env
+volumes:
+  db-data:

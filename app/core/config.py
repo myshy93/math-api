@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     PROJECT_NAME: str = "Math Microservice"
-    DATABASE_URL: str = "sqlite:///./math.db"
+    DATABASE_URL: str = "sqlite:///./db-files/math.db"
     DEBUG: bool = False
     SERVER_URL: str = 'localhost'
 

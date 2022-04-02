@@ -18,20 +18,19 @@ pip install -r requirements.txt
 
 ## Configurable environment settings
 
-| Variable name               | Description        | Default             |
-|-----------------------------|--------------------|---------------------|
-| API_V1_STR                  | API V1 prefix      | /api/v1             |
-| SECRET_KEY                  | Secret key for JWT | Randon generated    |
-| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Expire minutes | 11520 (8 days)      |
-| PROJECT_NAME                | Project name       | Math Microservice   |
-| DEBUG                       | Enable debugging   | False               |
-| DATABASE_URL                | Database URL       | sqlite:///./math.db |
-| SERVER_URL                  | Trusted hostname   | localhost           |
+| Variable name               | Description        | Default                      |
+|-----------------------------|--------------------|------------------------------|
+| API_V1_STR                  | API V1 prefix      | /api/v1                      |
+| SECRET_KEY                  | Secret key for JWT | Randon generated             |
+| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Expire minutes | 11520 (8 days)               |
+| PROJECT_NAME                | Project name       | Math Microservice            |
+| DEBUG                       | Enable debugging   | False                        |
+| DATABASE_URL                | Database URL       | sqlite:///./db-files/math.db |
+| SERVER_URL                  | Trusted hostname   | localhost                    |
 
 NOTE: When DEBUG is True logging verbosity will increase and default users will be created.
 
-NOTE: In DEBUG mode all
-hosts will be treated as trusted.
+NOTE: In DEBUG mode all hosts will be treated as trusted.
 
 ## Run the server
 

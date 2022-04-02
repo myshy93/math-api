@@ -1,5 +1,6 @@
 import logging
 
+import logstash
 from passlib.context import CryptContext
 
 from app.core import config
@@ -32,3 +33,4 @@ def init_logger():
 
     # add ch to logger
     logger.addHandler(ch)
+    logger.addHandler(logstash.LogstashHandler('localhost', 5044, version=1))
