@@ -1,8 +1,11 @@
+import time
 from typing import Union
 
 from sqlalchemy.orm import Session
+from starlette.requests import Request
 
 from app.core.utils import get_hashed_password, verify_password
+from app.models.request import RequestModel
 from app.models.user import UserModel
 from app.schemas.users import UserCreateSchema, UserSchema
 
@@ -37,4 +40,20 @@ def authenticate_user(db: Session, email: str, password: str) -> Union[None, Use
         return None
     return UserSchema(email=db_user.email, name=db_user.name)
 
-# - User operations
+
+# ----------------------
+
+# + Request Middleware operations
+
+def add_request_record(db: Session, request: Request):
+    """Extract info from FastAPI request object. Map info to RequestModel."""
+    db_req_record = RequestModel(
+        endpoint=str(request.url),
+        ts=time.time(),
+        ip=request.client.host,
+        # here i should grab the user but will require some refactoring.
+        # also, will introduce overhead to db.
+    )
+    db.add(db_req_record)
+    db.commit()
+# ------------------------
