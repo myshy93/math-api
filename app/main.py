@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from fastapi import FastAPI, Depends, HTTPException
@@ -10,13 +11,19 @@ from starlette import status
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.api.api_v1.api import api_router
+from app.core import config
 from app.core.config import settings
 from app.core.middlewares import store_requests_in_db
 from app.core.security import create_access_token
+from app.core.utils import init_logger
 from app.db.connection import get_db, get_global_session, close_global_session
 from app.db.init_db import init_db
 from app.db.operations import authenticate_user
 from app.schemas.users import Token
+
+# Logger
+init_logger()
+logger = logging.getLogger(config.LOGGER_NAME)
 
 # The app
 app = FastAPI(
@@ -46,14 +53,14 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 async def startup():
     # add caching - in memory
     FastAPICache.init(InMemoryBackend, prefix="fastapi-cache")
-    print("Cache opened.")
+    logger.info("Cache opened.")
     # init database
     init_db()
-    print("Database initialized.")
+    logger.info("Database initialized.")
     # open global db session used to store requests
     # it is useless and time-consuming to open a db session for each request.
     get_global_session()
-    print("Global db session opened.")
+    logger.info("Global db session opened.")
 
 
 # -----------
@@ -63,7 +70,7 @@ async def startup():
 async def shutdown():
     # close db session used to store requests
     close_global_session()
-    print("Global db session closed.")
+    logger.info("Global db session closed.")
 
 
 # JWT token endpoint
