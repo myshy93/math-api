@@ -6,7 +6,6 @@ Tech stack:
 
 - FastAPI
 - Uvicorn
-- FastAPI Cache with memcache
 - AioKafka
 
 ## Install requirements

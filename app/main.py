@@ -5,8 +5,6 @@ import sentry_sdk
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.inmemory import InMemoryBackend
 from kafka.errors import KafkaConnectionError
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sqlalchemy.orm import Session
@@ -62,7 +60,6 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 @app.on_event("startup")
 async def startup():
     # add caching - in memory
-    FastAPICache.init(InMemoryBackend, prefix="fastapi-cache")
     logger.info("Cache opened.")
     # init database
     init_db()

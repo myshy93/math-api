@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.params import Query
 from fastapi_cache.decorator import cache
 from starlette import status
+from starlette.requests import Request
+from starlette.responses import Response
 
 from app.core import operations
 from app.core.event_producer import send_math_event
@@ -11,10 +13,12 @@ from app.schemas.users import UserSchema
 
 router = APIRouter()
 
+extra_responses = {
+    409: {"description": "Requested operation is requires to much resources."}
+}
 
-@cache
-@router.get("/pow", response_model=FloatResult,
-            responses={409: {"description": "Requested operation is requires to much resources."}})
+
+@router.get("/pow", response_model=FloatResult, responses=extra_responses)
 async def power(base: float = Query(..., description="The base."),
                 exp: float = Query(..., description="The exponent")):
     """The power of two numbers. (base ^ exp)"""
@@ -31,7 +35,6 @@ async def power(base: float = Query(..., description="The base."),
     )
 
 
-@cache
 @router.get("/fibonacci", response_model=IntResult)
 async def n_th_fibonacci(n: int = Query(..., ge=1)):
     """N-th Fibonacci number."""
@@ -41,7 +44,6 @@ async def n_th_fibonacci(n: int = Query(..., ge=1)):
     )
 
 
-@cache
 @router.get("/factorial", response_model=IntResult)
 async def factorial(n: int = Query(..., ge=1),
                     c_user: UserSchema = Depends(get_current_user)):
