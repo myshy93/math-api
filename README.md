@@ -64,3 +64,11 @@ python -m uvicorn app.main:app --reload
 email: test@test.com
 password: test
 ```
+
+### Read events from Kafka
+```shell
+docker exec --interactive --tty broker \
+kafka-console-consumer --bootstrap-server broker:9092 \
+                       --topic quickstart \
+                       --from-beginning
+```

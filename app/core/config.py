@@ -19,8 +19,10 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Math Microservice"
     DATABASE_URL: str = "sqlite:///./db-files/math.db"
     DEBUG: bool = False
-    SERVER_URL: str = 'localhost'
+    SERVER_URL: str = "localhost"
     SENTRY_DSN: str = None
+    KAFKA_SERVER: str = "localhost"
+    KAFKA_PORT: str = "9092"
 
     class Config:
         case_sensitive = True
