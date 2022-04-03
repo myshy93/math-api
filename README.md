@@ -41,6 +41,13 @@ NOTE: In DEBUG mode all hosts will be treated as trusted.
 python -m uvicorn app.main:app --reload
 ```
 
+## Run tests
+```shell
+# run in root dir
+export DEBUG=True
+python -m pytest -vv
+```
+
 ## Deploy with docker
 
 1. Copy .env.sample and rename it .env. Here you will place all configuration variables.
