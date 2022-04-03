@@ -1,9 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.params import Query
-from fastapi_cache.decorator import cache
 from starlette import status
-from starlette.requests import Request
-from starlette.responses import Response
 
 from app.core import operations
 from app.core.event_producer import send_math_event
