@@ -41,6 +41,7 @@ async def n_th_fibonacci(n: int = Query(..., ge=1)):
     )
 
 
+# noinspection PyUnusedLocal
 @router.get("/factorial", response_model=IntResult)
 async def factorial(n: int = Query(..., ge=1),
                     c_user: UserSchema = Depends(get_current_user)):

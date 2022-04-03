@@ -47,7 +47,7 @@ def test_pow_overflow():
 
 
 def test_pow_invalid():
-    response = client.get(f"{settings.API_V1_STR}/math/pow?base=afla&exp=unu")
+    response = client.get(f"{settings.API_V1_STR}/math/pow?base=alfa&exp=unu")
     assert response.status_code == 422
     response = client.get(f"{settings.API_V1_STR}/math/pow?base=12")
     assert response.status_code == 422
