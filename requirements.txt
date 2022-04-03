@@ -8,5 +8,5 @@ passlib
 python-jose[cryptography]
 python-multipart
 python-logstash
-kafka-python
+aiokafka
 sentry-sdk

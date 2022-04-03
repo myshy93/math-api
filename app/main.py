@@ -7,13 +7,14 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
+from kafka.errors import KafkaConnectionError
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sqlalchemy.orm import Session
 from starlette import status
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.api.api_v1.api import api_router
-from app.core import config
+from app.core import config, event_producer
 from app.core.config import settings
 from app.core.middlewares import store_requests_in_db
 from app.core.security import create_access_token
@@ -70,6 +71,12 @@ async def startup():
     # it is useless and time-consuming to open a db session for each request.
     get_global_session()
     logger.info("Global db session opened.")
+    try:
+        logger.info("Connecting to Kafka broker....")
+        await event_producer.start()
+        logger.info("Connected to Kafka broker.")
+    except KafkaConnectionError:
+        logger.warning("Unable to connect to Kafka broker.")
 
 
 # -----------
@@ -80,6 +87,8 @@ async def shutdown():
     # close db session used to store requests
     close_global_session()
     logger.info("Global db session closed.")
+    await event_producer.stop()
+    logger.info("Kafka broker connection closed closed.")
 
 
 # JWT token endpoint
