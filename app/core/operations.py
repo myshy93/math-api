@@ -9,13 +9,12 @@ def n_th_fibonacci(n):
     while c < n:
         a, b = b, a + b
         c += 1
-
     return a
 
 
 def factorial(n):
     p = 1
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
         p *= i
 
     return p

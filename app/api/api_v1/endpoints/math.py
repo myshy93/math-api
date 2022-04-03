@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.params import Query
 from fastapi_cache.decorator import cache
+from starlette import status
 
 from app.core import operations
 from app.core.event_producer import send_math_event
@@ -12,13 +13,21 @@ router = APIRouter()
 
 
 @cache
-@router.get("/pow", response_model=FloatResult)
+@router.get("/pow", response_model=FloatResult,
+            responses={409: {"description": "Requested operation is requires to much resources."}})
 async def power(base: float = Query(..., description="The base."),
                 exp: float = Query(..., description="The exponent")):
     """The power of two numbers. (base ^ exp)"""
     await send_math_event("power called")
+    try:
+        res = operations.power(base, exp)
+    except OverflowError:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Result exceeds memory limits.",
+        )
     return FloatResult(
-        result=operations.power(base, exp)
+        result=res
     )
 
 

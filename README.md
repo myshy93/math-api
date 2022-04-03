@@ -82,4 +82,5 @@ kafka-console-consumer --bootstrap-server broker:9092 \
 
 ## Known issues
 
-1. ELK stack is not stable and needs configuration adjustements.
+1. ELK stack is not stable and needs configuration adjustments.
+2. Documentation UI will return null (as represented result) for large int numbers returnerd by endpoints.
